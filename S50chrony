@@ -1,0 +1,30 @@
+#!/bin/sh
+# S50chronyd - by destinal
+# Start up chronyd
+
+case "$1" in
+  start)
+    # Check if chronyd is already running
+    if pgrep -x "chronyd" > /dev/null
+    then
+        echo "chronyd is already running. Bailing!"
+        exit 1
+    fi
+
+    # Otherwise we're all set up and can start chronyd
+    chronyd
+    ;;
+  stop)
+    killall chronyd
+    ;;
+  restart|reload)
+    "$0" stop
+    "$0" start
+    ;;
+  *)
+    echo "Usage:"
+    echo "    $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit $?
